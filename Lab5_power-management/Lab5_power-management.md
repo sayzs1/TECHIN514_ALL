@@ -1,6 +1,6 @@
 # Lab 5 - Power Management
 
-## What you will need for this lab
+## Lab Prerequisites
 
 - ESP32 (x1)
 - USB-C cable for ESP32 (x1)
@@ -30,7 +30,7 @@ void setup(){
  
 void loop(){
 	Serial.println(WiFi.macAddress());
-	delay(1000)
+	delay(1000);
 }
 ```
 
@@ -56,12 +56,12 @@ void setup() {
   delay(1000);
   // Connect to WiFi
   WiFi.begin(ssid, password);
-  Serial.println(Connecting to WiFi);
+  Serial.print("Connecting to WiFi");
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.print(".");
   }
-
+  Serial.println("");
   Serial.println("Connected to WiFi");
 }
 
