@@ -5,6 +5,7 @@
 #include <BLE2902.h>
 #include <stdlib.h>
 
+
 BLEServer* pServer = NULL;
 BLECharacteristic* pCharacteristic = NULL;
 bool deviceConnected = false;
@@ -13,10 +14,19 @@ unsigned long previousMillis = 0;
 const long interval = 1000;
 
 // TODO: add new global variables for your sensor readings and processed data
+const int trigPin = 3; // ESP32 S3's D1 pin
+const int echoPin = 2; // ESP32 S3's D0 pin
+long duration;
+int distance;
+const int numReadings = 10; // Number of readings to calculate moving average
+int readings[numReadings]; // Array to store individual readings
+int readIndex = 0; // Index of the current reading
+int total = 0; // Running total
+int average = 0; // Moving average
 
 // TODO: Change the UUID to your own (any specific one works, but make sure they're different from others'). You can generate one here: https://www.uuidgenerator.net/
-#define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
-#define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+#define SERVICE_UUID        "67574d19-745c-4cbd-ab5a-5079ac6cdee3"
+#define CHARACTERISTIC_UUID "60d11b39-7fea-46c8-8c04-edb67d530b1f"
 
 class MyServerCallbacks : public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
@@ -29,15 +39,41 @@ class MyServerCallbacks : public BLEServerCallbacks {
 };
 
 // TODO: add DSP algorithm functions here
+void calculateMovingAverage(int newReading) {
+    // Subtract the last reading
+    total = total - readings[readIndex];
+    // Read from the sensor
+    readings[readIndex] = newReading;
+    // Add the reading to the total
+    total = total + readings[readIndex];
+    // Advance to the next position in the array
+    readIndex = readIndex + 1;
+
+    // If we're at the end of the array...
+    if (readIndex >= numReadings) {
+        // ...wrap around to the beginning
+        readIndex = 0;
+    }
+
+    // Calculate the average
+    average = total / numReadings;
+}
 
 void setup() {
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
 
     // TODO: add codes for handling your sensor setup (pinMode, etc.)
+    // Initialize the HC-SR04 sensor pins
+    pinMode(trigPin, OUTPUT);
+    pinMode(echoPin, INPUT);
+    // Initialize all the readings to 0:
+    for (int thisReading = 0; thisReading < numReadings; thisReading++) {
+        readings[thisReading] = 0;
+    }
 
     // TODO: name your device to avoid conflictions
-    BLEDevice::init("XIAO_ESP32S3");
+    BLEDevice::init("Zia_ESP32");
     pServer = BLEDevice::createServer();
     pServer->setCallbacks(new MyServerCallbacks());
     BLEService *pService = pServer->createService(SERVICE_UUID);
@@ -62,8 +98,34 @@ void setup() {
 
 void loop() {
     // TODO: add codes for handling your sensor readings (analogRead, etc.)
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    duration = pulseIn(echoPin, HIGH);
+    distance = duration * 0.034 / 2;
 
     // TODO: use your defined DSP algorithm to process the readings
+    calculateMovingAverage(distance);
+
+    Serial.print("Raw Distance: ");
+    Serial.print(distance);
+    Serial.print(" cm, Denoised: ");
+    Serial.print(average);
+    Serial.println(" cm");
+
+    if (deviceConnected) {
+        if (average < 30) {
+            // Only send data if average distance is less than 30 cm
+            String valueToSend = "Distance: " + String(average) + " cm";
+            pCharacteristic->setValue(valueToSend.c_str());
+            pCharacteristic->notify();
+            Serial.print("Notify value: ");
+            Serial.println(valueToSend);
+        }
+    }
+
 
     
     if (deviceConnected) {
@@ -71,9 +133,9 @@ void loop() {
         // TODO: change the following code to send your own readings and processed data
         unsigned long currentMillis = millis();
         if (currentMillis - previousMillis >= interval) {
-        pCharacteristic->setValue("Hello World");
+        pCharacteristic->setValue("Connect Device name:Zia_ESP32");
         pCharacteristic->notify();
-        Serial.println("Notify value: Hello World");
+        Serial.println("Notify value: Successfully connected Krant_ESP32");
         }
     }
     // disconnecting
