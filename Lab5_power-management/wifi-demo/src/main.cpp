@@ -7,11 +7,13 @@
 #include "addons/RTDBHelper.h"
 
 const char* ssid = "UW MPSK";
-const char* password = "A]rr)77gr{"; // Replace with your network password
-#define DATABASE_URL "https://techin514-win24-lab6-default-rtdb.firebaseio.com/" // Replace with your database URL
-#define API_KEY "AIzaSyBAzJH8a2oIqAKJ6yKg4AtBN6tP_rQW4OE" // Replace with your API key
-#define UPLOAD_INTERVAL 1000 // 1 seconds each upload
+const char* password = "YourPasswordHere"; // Replace with your network password
+#define DATABASE_URL "https://xxxxx.firebaseio.com/" // Replace with your database URL
+#define API_KEY "YourAPIKeyHere" // Replace with your API key
 #define STAGE_INTERVAL 12000 // 12 seconds each stage
+#define MAX_WIFI_RETRIES 5 // Maximum number of WiFi connection retries
+
+int uploadInterval = 1000; // 1 seconds each upload
 
 //Define Firebase Data object
 FirebaseData fbdo;
@@ -83,6 +85,7 @@ void setup() {
 
   // Go to deep sleep for 12 seconds
   Serial.println("Going to deep sleep for 12 seconds...");
+  WiFi.disconnect();
   esp_sleep_enable_timer_wakeup(STAGE_INTERVAL * 1000); // in microseconds
   esp_deep_sleep_start();
 }
@@ -114,9 +117,15 @@ void connectToWiFi()
   Serial.println(WiFi.macAddress());
   WiFi.begin(ssid, password);
   Serial.println("Connecting to WiFi");
+  int wifiCnt = 0;
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.print(".");
+    wifiCnt++;
+    if (wifiCnt > MAX_WIFI_RETRIES){
+      Serial.println("WiFi connection failed");
+      ESP.restart();
+    }
   }
   Serial.println("Connected to WiFi");
   Serial.print("IP Address: ");
@@ -148,7 +157,7 @@ void initFirebase()
 }
 
 void sendDataToFirebase(float distance){
-    if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > UPLOAD_INTERVAL || sendDataPrevMillis == 0)){
+    if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > uploadInterval || sendDataPrevMillis == 0)){
     sendDataPrevMillis = millis();
     // Write an Float number on the database path test/float
     if (Firebase.RTDB.pushFloat(&fbdo, "test/distance", distance)){
