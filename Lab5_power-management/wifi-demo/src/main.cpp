@@ -7,10 +7,11 @@
 #include "addons/RTDBHelper.h"
 
 const char* ssid = "UW MPSK";
-const char* password = "YourPasswordHere"; // Replace with your network password
-#define DATABASE_URL "https://xxxxx.firebaseio.com/" // Replace with your database URL
-#define API_KEY "YourAPIKeyHere" // Replace with your API key
+const char* password = "A]rr)77gr{"; // Replace with your network password
+#define DATABASE_URL "https://techin514-win24-lab6-default-rtdb.firebaseio.com/" // Replace with your database URL
+#define API_KEY "AIzaSyBAzJH8a2oIqAKJ6yKg4AtBN6tP_rQW4OE" // Replace with your API key
 #define UPLOAD_INTERVAL 1000 // 1 seconds each upload
+#define STAGE_INTERVAL 12000 // 12 seconds each stage
 
 //Define Firebase Data object
 FirebaseData fbdo;
@@ -42,20 +43,28 @@ void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
-  // First, we start with the ultrasonic sensor only
-  Serial.println("Measuring distance for 5 seconds...");
+  // First, we let the device run for 12 seconds without doing anything
+  Serial.println("Running for 12 seconds without doing anything...");
   unsigned long startTime = millis();
-  while (millis() - startTime < 5000)
+  while (millis() - startTime < STAGE_INTERVAL)
+  {
+    delay(100); // Delay between measurements
+  }
+
+  // Second, we start with the ultrasonic sensor only
+  Serial.println("Measuring distance for 12 seconds...");
+  startTime = millis();
+  while (millis() - startTime < STAGE_INTERVAL)
   {
     measureDistance();
     delay(100); // Delay between measurements
   }
 
   // Now, turn on WiFi and keep measuring
-  Serial.println("Turning on WiFi and measuring for 5 seconds...");
+  Serial.println("Turning on WiFi and measuring for 12 seconds...");
   connectToWiFi();
   startTime = millis();
-  while (millis() - startTime < 5000)
+  while (millis() - startTime < STAGE_INTERVAL)
   {
     measureDistance();
     delay(100); // Delay between measurements
@@ -65,16 +74,16 @@ void setup() {
   Serial.println("Turning on Firebase and sending data every 1 second...");
   initFirebase();
   startTime = millis();
-  while (millis() - startTime < 5000)
+  while (millis() - startTime < STAGE_INTERVAL)
   {
     float currentDistance = measureDistance();
     sendDataToFirebase(currentDistance);
     delay(100); // Delay between measurements
   }
 
-  // Go to deep sleep for 5 seconds
-  Serial.println("Going to deep sleep for 5 seconds...");
-  esp_sleep_enable_timer_wakeup(5 * 1000000); // 5 seconds
+  // Go to deep sleep for 12 seconds
+  Serial.println("Going to deep sleep for 12 seconds...");
+  esp_sleep_enable_timer_wakeup(STAGE_INTERVAL * 1000); // in microseconds
   esp_deep_sleep_start();
 }
 
