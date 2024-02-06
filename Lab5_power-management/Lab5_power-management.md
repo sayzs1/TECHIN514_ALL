@@ -157,7 +157,7 @@ Rewrite the Arduino code to transmit your ultrasonic sensor data to Firebase at 
 4. Once every 3 seconds (0.333 Hz)
 5. Once every 4 seconds (0.25 Hz)
 
-Identify what the power consumption (i.e. average current) is for each of the five different data transmission rates. Plot a graph with Excel or Google Sheets to find the correlation between the data transmission rate and power consumption (i.e. average current).
+Identify what the power consumption (use averaged current multiply the power voltage, unit in Watt, W) is for each of the five different data transmission rates. Plot a graph with Excel or Google Sheets to find the correlation between the data transmission rate and power consumption.
 
 Zoom in the window to read the averaged current on your Power Profiler app, and estimate how long a 500mAh battery would support each of the five different data transmission rates.
 
