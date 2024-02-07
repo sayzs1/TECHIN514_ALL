@@ -17,11 +17,17 @@ For reference you can look at the example Fusion file in this repo.  I recommend
 When you're finished, upload to canvas : 
 
 Your Fusion file (F3D)
+
 A STEP export file of your parts
+
 Section views as described in the rubric (screenshot is OK)
+
     main cross-section view showing joints between parts
+    
     section or detail view to show your LED viewing feature
+    
     3D AND section views showing the button feature
+    
     3D views of complete device
 
 For details of what must be uploaded to canvas, please consult the assignment rubric (which will always take precedence)
