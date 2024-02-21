@@ -465,6 +465,7 @@ A single PDF, containing:
 * Screenshot of your model's accuracy on the test data set
   * Also describe what pre-process setups and hyperparameters you have tried. What's their influence on the model's performance.
 * Screenshot of inference running on your ESP32
+  * Describe what bugs you faced when deploying the model and how you fixed them.
 
 ## External Resources
 
