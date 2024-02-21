@@ -454,6 +454,18 @@ After you click the **Build** button, the library will be built and then automat
 
 ![Untitled](TinyML%20Lab%20c64254f27b174ac1b2b765f6a060623a/Untitled%2016.png)
 
+## What to be Submitted on Canvas
+
+A single PDF, containing:
+
+* Screenshot of your serial monitor output when an image is captured and uploaded by your ESP32 to Firebase
+* Screenshot of your firebase storage showing your uploaded images
+* Screenshot of your terminal output of your images being downloaded from Firebase using Google Cloud CLI
+* Screenshot of the scatter plot after you generate features on Edge Impulse
+* Screenshot of your model's accuracy on the test data set
+  * Also describe what pre-process setups and hyperparameters you have tried. What's their influence on the model's performance.
+* Screenshot of inference running on your ESP32
+
 ## External Resources
 
 * [ESP32-CAM Save Picture to Cloud Storage](https://randomnerdtutorials.com/esp32-cam-save-picture-firebase-storage/)
