@@ -195,6 +195,8 @@ Now, you’re all set to start programming the ESP32S3 board to send pictures to
 1. Connect the switch pins to GPIO1 and GND on the ESP32.
 2. Set the `BUTTON_PIN` to the GPIO number we connected to.
 
+![Untitled](TinyML%20Lab%20c64254f27b174ac1b2b765f6a060623a/SCR-20240221-nakt.jpeg)
+
 ```cpp
 #define BUTTON_PIN 1
 ```
