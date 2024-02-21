@@ -38,7 +38,7 @@ const char *password = "<Your-Device-MAC-address>";
 #define USER_EMAIL "<Your-created-user-email>"
 #define USER_PASSWORD "<Your-created-user-password>"
 
-// Insert Firebase storage bucket ID e.g gs://bucket-name.appspot.com
+// Insert Firebase storage bucket ID e.g bucket-name.appspot.com
 #define STORAGE_BUCKET_ID "<Your-storage-bucket-id>"
 
 // Photo File Name to save in LittleFS
