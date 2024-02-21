@@ -410,7 +410,7 @@ After setting all the hyperparameters, you can click **Start Training** to train
 
 ### Evaluating the model
 
-For evaluation, **make sure you have uploaded the test dataset provided by us first**. Then you can click *Model testing* on the left, then click the **Classify all** button.
+For evaluation, **make sure you have uploaded the [test dataset](https://github.com/GIXLabs/TECHIN514_W24/tree/main/Lab7_tinyml/test_dataset) provided by us first**. Then you can click *Model testing* on the left, then click the **Classify all** button.
 
 ![Untitled](TinyML%20Lab%20c64254f27b174ac1b2b765f6a060623a/Untitled%2011.png)
 
@@ -454,9 +454,8 @@ After you click the **Build** button, the library will be built and then automat
 
 ![Untitled](TinyML%20Lab%20c64254f27b174ac1b2b765f6a060623a/Untitled%2016.png)
 
-## Appendices
+## External Resources
 
-- A: Installing and Configuring Arduino IDE
-- B: ESP32S3 GPIO Pinout
-- C: Firebase Security Rules Examples
-- D: Google Cloud SDK Commands Cheat Sheet
+* [ESP32-CAM Save Picture to Cloud Storage](https://randomnerdtutorials.com/esp32-cam-save-picture-firebase-storage/)
+* [Edge Impulse Image Classification Tutorial](https://docs.edgeimpulse.com/docs/tutorials/end-to-end-tutorials/image-classification)
+* [Google Cloud SDK Cheat Sheet](https://cloud.google.com/sdk/docs/cheatsheet)
